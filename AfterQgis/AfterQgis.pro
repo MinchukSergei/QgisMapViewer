@@ -9,8 +9,6 @@ QT       += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 QT += xml
-QT += network
-QT += qgis
 
 
 
@@ -24,7 +22,7 @@ HEADERS  += mainwindow.h
 
 FORMS    += mainwindow.ui 
 
-LIBS += -L/usr/local/lib -lqgis_core
+LIBS += -L/usr/local/lib -lqgis_core -lqgis_gui
 
 INCLUDEPATH += /usr/local/include/qgis
 
