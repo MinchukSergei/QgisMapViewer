@@ -1,0 +1,12 @@
+building-point
+building-polygon
+highway-line
+railway-line
+railway-station-point
+railway-platform-polygon
+vegetation-polygon
+settlement-point
+settlement-polygon
+surface-polygon
+water-line
+water-polygon

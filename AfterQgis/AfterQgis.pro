@@ -31,5 +31,7 @@ QMAKE_CXXFLAGS += -std=c++0x
 
 DEFINES += GUI_EXPORT= CORE_EXPORT=
 
-RESOURCES += \
-    resources.qrc
+RESOURCES += resources.qrc
+
+OTHER_FILES += \
+    layers_names.txt

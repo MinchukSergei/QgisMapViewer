@@ -29,6 +29,8 @@ class MainWindow : public QMainWindow, private Ui::MainWindowBase
      QgsMapTool * mpZoomInTool;
      QgsMapTool * mpZoomOutTool;
 
+private slots:
+     void readLayerNames(QVector<QString> &layerNames);
 };
 
 #endif

@@ -22,12 +22,12 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags fl)
 
   mpMapCanvas= new QgsMapCanvas(0, 0);
   mpMapCanvas->enableAntiAliasing(true);
-  mpMapCanvas->useImageToRender(false);
+  //mpMapCanvas->useImageToRender(false);
   mpMapCanvas->setCanvasColor(QColor(255, 255, 255));
   mpMapCanvas->freeze(false);
-  mpMapCanvas->setVisible(true);
-  mpMapCanvas->refresh();
-  mpMapCanvas->show();
+//  mpMapCanvas->setVisible(true);
+//  mpMapCanvas->refresh();
+//  mpMapCanvas->show();
 
   // Lay our widgets out in the main window
   mpLayout = new QVBoxLayout(frameMap);
@@ -83,46 +83,43 @@ void MainWindow::zoomOutMode()
 
 void MainWindow::addLayer()
 {
-    QString layerPath               = "/home/minchuk/Downloads/AllTypes/";
-    QString layerPathPolylines      = layerPath + "polylines.shp";
-    QString layerPathPolygons       = layerPath + "polygons.shp";
-    QString layerPathPoints         = layerPath + "points.shp";
-
+    QString layerPath                 = "/home/minchuk/work/practice/BY_map_osmshp/data/";
     QString myLayerBaseName     = "test";
     QString myProviderName      = "ogr";
 
-    QgsVectorLayer * mypLayerPolyLines =  new QgsVectorLayer(layerPathPolylines, myLayerBaseName, myProviderName);
-    QgsVectorLayer * mypLayerPolygons =  new QgsVectorLayer(layerPathPolygons, myLayerBaseName, myProviderName);
-    QgsVectorLayer * mypLayerPoints =  new QgsVectorLayer(layerPathPoints, myLayerBaseName, myProviderName);
-
-    QgsSingleSymbolRendererV2 *mypRendererPolylines = new QgsSingleSymbolRendererV2(
-                QgsSymbolV2::defaultSymbol(mypLayerPolyLines->geometryType()));
-    QgsSingleSymbolRendererV2 *mypRendererPolygons = new QgsSingleSymbolRendererV2(
-                QgsSymbolV2::defaultSymbol(mypLayerPolygons->geometryType()));
-    QgsSingleSymbolRendererV2 *mypRendererPoints = new QgsSingleSymbolRendererV2(
-                QgsSymbolV2::defaultSymbol(mypLayerPoints->geometryType()));
-
     QList <QgsMapCanvasLayer> myLayerSet;
 
-    mypLayerPolyLines->setRendererV2(mypRendererPolylines);
-    mypLayerPolygons->setRendererV2(mypRendererPolygons);
-    mypLayerPoints->setRendererV2(mypRendererPoints);
+    QVector<QString> layerNames;
+    readLayerNames(layerNames);
 
-    // Add the Vector Layer to the Layer Registry
-    QgsMapLayerRegistry::instance()->addMapLayer(mypLayerPoints, 1);
-    QgsMapLayerRegistry::instance()->addMapLayer(mypLayerPolygons, 1);
-    QgsMapLayerRegistry::instance()->addMapLayer(mypLayerPolyLines, 1);
+    QString layerName;
+    QString filenameExtention = ".shp";
+    QgsVectorLayer * mypLayer;
+    foreach (layerName, layerNames) {
+        mypLayer =  new QgsVectorLayer(layerPath + layerName + filenameExtention, myLayerBaseName, myProviderName);
+        QgsSingleSymbolRendererV2 *mypRenderer = new QgsSingleSymbolRendererV2(
+                    QgsSymbolV2::defaultSymbol(mypLayer->geometryType()));
+        mypLayer->setRendererV2(mypRenderer);
+        QgsMapLayerRegistry::instance()->addMapLayer(mypLayer, 1);
+        myLayerSet.append(QgsMapCanvasLayer(mypLayer, TRUE));
+    }
 
-    // Add the Layer to the Layer Set
-    myLayerSet.append(QgsMapCanvasLayer(mypLayerPoints, TRUE));
-    myLayerSet.append(QgsMapCanvasLayer(mypLayerPolygons, TRUE));
-    myLayerSet.append(QgsMapCanvasLayer(mypLayerPolyLines, TRUE));
-
-    // Create the Map Canvas
-
-
-    mpMapCanvas->setExtent(mypLayerPolygons->extent());
+    mpMapCanvas->setExtent(mypLayer->extent());
     mpMapCanvas->setLayerSet(myLayerSet);
+}
+
+void MainWindow::readLayerNames(QVector<QString> &layerNames)
+{
+    QFile inputFile(QDir::currentPath() + "/layers_names.txt");
+    if (inputFile.open(QIODevice::ReadOnly))
+    {
+       QTextStream in(&inputFile);
+       while (!in.atEnd())
+       {
+          layerNames.append(in.readLine());
+       }
+       inputFile.close();
+    }
 }
 
 
