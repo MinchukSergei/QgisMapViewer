@@ -20,7 +20,8 @@ SOURCES += main.cpp\
 
 HEADERS  += mainwindow.h
 
-FORMS    += mainwindow.ui 
+FORMS    += \ 
+    mainwindowbase.ui
 
 LIBS += -L/usr/local/lib -lqgis_core -lqgis_gui
 
@@ -29,3 +30,6 @@ INCLUDEPATH += /usr/local/include/qgis
 QMAKE_CXXFLAGS += -std=c++0x
 
 DEFINES += GUI_EXPORT= CORE_EXPORT=
+
+RESOURCES += \
+    resources.qrc
