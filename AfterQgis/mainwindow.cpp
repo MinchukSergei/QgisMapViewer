@@ -46,8 +46,11 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags fl)
     connect(mpLocate, SIGNAL(triggered()), this, SLOT(locate()));
 
     //add layers recently
-    addAllLayers();
+
     addLocationLayer();
+    addAllLayers();
+
+
 
     //create a little toolbar
     mpMapToolBar = addToolBar(tr("File"));
@@ -102,11 +105,12 @@ void MainWindow::locate()
     int yMin = 54;
     int yMax = 55;
 
-    double x = fRand(xMin, xMax);
-    double y = fRand(yMin, yMax);
+    double x = 27.422596;
+    double y = 53.912695;
 
     QgsGeometry *geom;
     geom = QgsGeometry::fromPoint(QgsPoint(x, y));
+
 
     QgsFeature feature;
     QgsFeatureIterator iter = lDataProvider->getFeatures();
@@ -169,6 +173,7 @@ void MainWindow::addLayer(QgsVectorLayer &layer)
 {
     QgsSingleSymbolRendererV2 *mypRenderer = new QgsSingleSymbolRendererV2(
                 QgsSymbolV2::defaultSymbol(layer.geometryType()));
+
     layer.setRendererV2(mypRenderer);
     QgsMapLayerRegistry::instance()->addMapLayer(&layer, TRUE);
     myLayerSet.append(QgsMapCanvasLayer(&layer, TRUE));
