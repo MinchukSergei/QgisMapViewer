@@ -58,6 +58,7 @@
     <addaction name="mpActionZoomIn"/>
     <addaction name="mpActionZoomOut"/>
     <addaction name="mpActionPan"/>
+    <addaction name="mpLocate"/>
    </widget>
    <addaction name="menuMap"/>
   </widget>
@@ -87,6 +88,15 @@
    </property>
    <property name="text">
     <string>Pan</string>
+   </property>
+  </action>
+  <action name="mpLocate">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/mActionAddLayer.png</normaloff>:/mActionAddLayer.png</iconset>
+   </property>
+   <property name="text">
+    <string>Locate</string>
    </property>
   </action>
  </widget>

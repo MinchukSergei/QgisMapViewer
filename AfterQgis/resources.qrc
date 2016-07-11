@@ -3,5 +3,6 @@
         <file>mActionPan.png</file>
         <file>mActionZoomIn.png</file>
         <file>mActionZoomOut.png</file>
+        <file>mActionAddLayer.png</file>
     </qresource>
 </RCC>

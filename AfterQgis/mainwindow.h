@@ -15,11 +15,19 @@ class MainWindow : public QMainWindow, private Ui::MainWindowBase
     public:
       MainWindow(QWidget* parent = 0, Qt::WFlags fl = 0 );
       ~MainWindow();
+      QString layerPath                 = "/home/minchuk/work/practice/BY_map_osmshp/data/";
+      QString filenameExtention         = ".shp";
+      QString myLayerBaseName           = "test";
+      QString myProviderName            = "ogr";
+
     public slots:
       void zoomInMode();
       void zoomOutMode();
       void panMode();
-      void addLayer();
+      void locate();
+      void addLayer(QgsVectorLayer &layer);
+      void addLocationLayer();
+      void addAllLayers();
 
     private:
      QgsMapCanvas * mpMapCanvas;
@@ -28,9 +36,15 @@ class MainWindow : public QMainWindow, private Ui::MainWindowBase
      QgsMapTool * mpPanTool;
      QgsMapTool * mpZoomInTool;
      QgsMapTool * mpZoomOutTool;
+     QList <QgsMapCanvasLayer> myLayerSet;
+     QgsVectorLayer * locationLayer;
+
 
 private slots:
      void readLayerNames(QVector<QString> &layerNames);
+     void readLayerLabeling(QVector<bool> &layerLabeling);
+     void enableLayerLables(QgsVectorLayer &layer, bool isLocation);
+     double fRand(double fMin, double fMax);
 };
 
 #endif

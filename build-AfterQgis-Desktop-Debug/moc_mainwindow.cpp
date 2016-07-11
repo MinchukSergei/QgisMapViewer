@@ -22,7 +22,7 @@ static const uint qt_meta_data_MainWindow[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-       5,   14, // methods
+      11,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -34,15 +34,27 @@ static const uint qt_meta_data_MainWindow[] = {
       25,   11,   11,   11, 0x0a,
       39,   11,   11,   11, 0x0a,
       49,   11,   11,   11, 0x0a,
-      71,   60,   11,   11, 0x08,
+      64,   58,   11,   11, 0x0a,
+      90,   11,   11,   11, 0x0a,
+     109,   11,   11,   11, 0x0a,
+     135,  124,   11,   11, 0x08,
+     183,  169,   11,   11, 0x08,
+     234,  217,   11,   11, 0x08,
+     291,  281,  274,   11, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_MainWindow[] = {
     "MainWindow\0\0zoomInMode()\0zoomOutMode()\0"
-    "panMode()\0addLayer()\0layerNames\0"
+    "panMode()\0locate()\0layer\0"
+    "addLayer(QgsVectorLayer&)\0addLocationLayer()\0"
+    "addAllLayers()\0layerNames\0"
     "readLayerNames(QVector<QString>&)\0"
+    "layerLabeling\0readLayerLabeling(QVector<bool>&)\0"
+    "layer,isLocation\0"
+    "enableLayerLables(QgsVectorLayer&,bool)\0"
+    "double\0fMin,fMax\0fRand(double,double)\0"
 };
 
 void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -54,8 +66,15 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 0: _t->zoomInMode(); break;
         case 1: _t->zoomOutMode(); break;
         case 2: _t->panMode(); break;
-        case 3: _t->addLayer(); break;
-        case 4: _t->readLayerNames((*reinterpret_cast< QVector<QString>(*)>(_a[1]))); break;
+        case 3: _t->locate(); break;
+        case 4: _t->addLayer((*reinterpret_cast< QgsVectorLayer(*)>(_a[1]))); break;
+        case 5: _t->addLocationLayer(); break;
+        case 6: _t->addAllLayers(); break;
+        case 7: _t->readLayerNames((*reinterpret_cast< QVector<QString>(*)>(_a[1]))); break;
+        case 8: _t->readLayerLabeling((*reinterpret_cast< QVector<bool>(*)>(_a[1]))); break;
+        case 9: _t->enableLayerLables((*reinterpret_cast< QgsVectorLayer(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
+        case 10: { double _r = _t->fRand((*reinterpret_cast< double(*)>(_a[1])),(*reinterpret_cast< double(*)>(_a[2])));
+            if (_a[0]) *reinterpret_cast< double*>(_a[0]) = _r; }  break;
         default: ;
         }
     }
@@ -93,9 +112,9 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 5)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 11;
     }
     return _id;
 }
