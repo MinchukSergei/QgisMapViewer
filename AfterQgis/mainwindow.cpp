@@ -124,6 +124,10 @@ void MainWindow::locate()
     lDataProvider->changeGeometryValues(geometryMap);
 
     locationLayer->commitChanges();
+    QgsPoint point = QgsPoint(x, y);
+    QgsRectangle rect = QgsRectangle(point, point);
+
+    mpMapCanvas->setExtent(rect);
     //mpMapCanvas->refresh();
 }
 
