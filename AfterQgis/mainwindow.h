@@ -25,9 +25,10 @@ class MainWindow : public QMainWindow, private Ui::MainWindowBase
       void zoomOutMode();
       void panMode();
       void locate();
-      void addLayer(QgsVectorLayer &layer);
+      void addLayer(QgsVectorLayer &layer, QString name);
       void addLocationLayer();
       void addAllLayers();
+      void enableLayerLables(QgsVectorLayer *layer, bool isLocation, bool isVisible);
 
     private:
      QgsMapCanvas * mpMapCanvas;
@@ -43,7 +44,6 @@ class MainWindow : public QMainWindow, private Ui::MainWindowBase
 private slots:
      void readLayerNames(QVector<QString> &layerNames);
      void readLayerLabeling(QVector<bool> &layerLabeling);
-     void enableLayerLables(QgsVectorLayer &layer, bool isLocation);
      double fRand(double fMin, double fMax);
 };
 

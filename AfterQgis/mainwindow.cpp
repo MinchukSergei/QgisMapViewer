@@ -14,6 +14,8 @@
 #include <qgslabelattributes.h>
 #include <qgsfield.h>
 
+#include "qgsmaptoolzoomevent.h"
+
 
 MainWindow::MainWindow(QWidget* parent, Qt::WFlags fl)
     : QMainWindow(parent,fl)
@@ -46,7 +48,6 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags fl)
     connect(mpLocate, SIGNAL(triggered()), this, SLOT(locate()));
 
     //add layers recently
-
     addLocationLayer();
     addAllLayers();
 
@@ -62,9 +63,9 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags fl)
     //create the maptools
     mpPanTool = new QgsMapToolPan(mpMapCanvas);
     mpPanTool->setAction(mpActionPan);
-    mpZoomInTool = new QgsMapToolZoom(mpMapCanvas, FALSE); // false = in
+    mpZoomInTool = new QgsMapToolZoomEvent(mpMapCanvas, FALSE, myLayerSet); // false = in
     mpZoomInTool->setAction(mpActionZoomIn);
-    mpZoomOutTool = new QgsMapToolZoom(mpMapCanvas, TRUE ); //true = out
+    mpZoomOutTool = new QgsMapToolZoomEvent(mpMapCanvas, TRUE, myLayerSet); //true = out
     mpZoomOutTool->setAction(mpActionZoomOut);
 }
 
@@ -99,14 +100,16 @@ void MainWindow::locate()
     QgsVectorDataProvider *lDataProvider;
     lDataProvider = locationLayer->dataProvider();
 
+    //need to swap coorinates x with y
+    double x = 27.558808;
+    double y = 53.902049;
+    if (!xLineEditCoordinate->text().isEmpty() && !xLineEditCoordinate->text().isEmpty())
+    {
+        y = xLineEditCoordinate->text().toDouble();
+        x = yLineEditCoordinate->text().toDouble();
+    }
 
-    int xMin = 25;
-    int xMax = 26;
-    int yMin = 54;
-    int yMax = 55;
-
-    double x = 27.422596;
-    double y = 53.912695;
+    double h = mpMapCanvas->scale();
 
     QgsGeometry *geom;
     geom = QgsGeometry::fromPoint(QgsPoint(x, y));
@@ -128,6 +131,7 @@ void MainWindow::locate()
     QgsRectangle rect = QgsRectangle(point, point);
 
     mpMapCanvas->setExtent(rect);
+
     //mpMapCanvas->refresh();
 }
 
@@ -144,17 +148,13 @@ void MainWindow::addAllLayers()
     QVector<bool> layerLabeling;
     readLayerLabeling(layerLabeling);
 
-    QString layerName;
-
     QgsVectorLayer * mypLayer;
 
     for (int i = 0; i < layerNames.count(); ++i) {
         mypLayer = new QgsVectorLayer(layerPath + layerNames.at(i) + filenameExtention,
-                                      myLayerBaseName, myProviderName);;
-        addLayer(*mypLayer);
-        if (layerLabeling.at(i)) {
-            enableLayerLables(*mypLayer, false);
-        }
+                                      myLayerBaseName, myProviderName);
+        addLayer(*mypLayer, layerNames.at(i));
+        enableLayerLables(mypLayer, false, layerLabeling.at(i));
     }
 
 
@@ -166,27 +166,28 @@ void MainWindow::addLocationLayer()
 {
     QString locationLayerName = "location-point";
     locationLayer = new QgsVectorLayer(layerPath + locationLayerName + filenameExtention,
-                                                   myLayerBaseName, myProviderName);
-    addLayer(*locationLayer);
-    enableLayerLables(*locationLayer, true);
+                                       myLayerBaseName, myProviderName);
+    addLayer(*locationLayer, "loc");
+    enableLayerLables(locationLayer, true, true);
     mpMapCanvas->setLayerSet(myLayerSet);
 }
 
 
-void MainWindow::addLayer(QgsVectorLayer &layer)
+void MainWindow::addLayer(QgsVectorLayer &layer, QString name)
 {
     QgsSingleSymbolRendererV2 *mypRenderer = new QgsSingleSymbolRendererV2(
                 QgsSymbolV2::defaultSymbol(layer.geometryType()));
 
     layer.setRendererV2(mypRenderer);
+    layer.setName(name);
     QgsMapLayerRegistry::instance()->addMapLayer(&layer, TRUE);
     myLayerSet.append(QgsMapCanvasLayer(&layer, TRUE));
 }
 
-void MainWindow::enableLayerLables(QgsVectorLayer &layer, bool isLocation)
+void MainWindow::enableLayerLables(QgsVectorLayer *layer, bool isLocation, bool isVisible)
 {
     QgsLabel * mypLabel;
-    mypLabel = layer.label();
+    mypLabel = layer->label();
     //and the label attributes associated with the label
     QgsLabelAttributes * mypLabelAttributes;
     mypLabelAttributes = mypLabel->labelAttributes();
@@ -195,7 +196,7 @@ void MainWindow::enableLayerLables(QgsVectorLayer &layer, bool isLocation)
     //get the field list associated with the layer
     //we'll print the names out to console for diagnostic purposes
 
-    QgsFields myFields = layer.fields();
+    QgsFields myFields = layer->fields();
     int indexFieldName = 0;
 
     for (unsigned int i = 0; i < myFields.size(); i++ )
@@ -226,7 +227,7 @@ void MainWindow::enableLayerLables(QgsVectorLayer &layer, bool isLocation)
     int myType = QgsLabelAttributes::PointUnits;
     mypLabelAttributes->setBufferSize(1,myType);
 
-    layer.enableLabels(TRUE);
+    layer->enableLabels(isVisible);
 }
 
 void MainWindow::readLayerNames(QVector<QString> &layerNames)

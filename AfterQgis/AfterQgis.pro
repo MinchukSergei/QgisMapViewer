@@ -16,9 +16,11 @@ TARGET = AfterQgis
 TEMPLATE = app
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    qgsmaptoolzoomevent.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    qgsmaptoolzoomevent.h
 
 FORMS    += \ 
     mainwindowbase.ui
@@ -26,7 +28,6 @@ FORMS    += \
 LIBS += -L/usr/local/lib -lqgis_core -lqgis_gui
 
 INCLUDEPATH += /usr/local/include/qgis
-
 QMAKE_CXXFLAGS += -std=c++0x
 
 DEFINES += GUI_EXPORT= CORE_EXPORT=

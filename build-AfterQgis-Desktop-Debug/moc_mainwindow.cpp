@@ -34,26 +34,26 @@ static const uint qt_meta_data_MainWindow[] = {
       25,   11,   11,   11, 0x0a,
       39,   11,   11,   11, 0x0a,
       49,   11,   11,   11, 0x0a,
-      64,   58,   11,   11, 0x0a,
-      90,   11,   11,   11, 0x0a,
-     109,   11,   11,   11, 0x0a,
-     135,  124,   11,   11, 0x08,
-     183,  169,   11,   11, 0x08,
-     234,  217,   11,   11, 0x08,
-     291,  281,  274,   11, 0x08,
+      69,   58,   11,   11, 0x0a,
+     103,   11,   11,   11, 0x0a,
+     122,   11,   11,   11, 0x0a,
+     164,  137,   11,   11, 0x0a,
+     220,  209,   11,   11, 0x08,
+     268,  254,   11,   11, 0x08,
+     319,  309,  302,   11, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_MainWindow[] = {
     "MainWindow\0\0zoomInMode()\0zoomOutMode()\0"
-    "panMode()\0locate()\0layer\0"
-    "addLayer(QgsVectorLayer&)\0addLocationLayer()\0"
-    "addAllLayers()\0layerNames\0"
-    "readLayerNames(QVector<QString>&)\0"
+    "panMode()\0locate()\0layer,name\0"
+    "addLayer(QgsVectorLayer&,QString)\0"
+    "addLocationLayer()\0addAllLayers()\0"
+    "layer,isLocation,isVisible\0"
+    "enableLayerLables(QgsVectorLayer*,bool,bool)\0"
+    "layerNames\0readLayerNames(QVector<QString>&)\0"
     "layerLabeling\0readLayerLabeling(QVector<bool>&)\0"
-    "layer,isLocation\0"
-    "enableLayerLables(QgsVectorLayer&,bool)\0"
     "double\0fMin,fMax\0fRand(double,double)\0"
 };
 
@@ -67,12 +67,12 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 1: _t->zoomOutMode(); break;
         case 2: _t->panMode(); break;
         case 3: _t->locate(); break;
-        case 4: _t->addLayer((*reinterpret_cast< QgsVectorLayer(*)>(_a[1]))); break;
+        case 4: _t->addLayer((*reinterpret_cast< QgsVectorLayer(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
         case 5: _t->addLocationLayer(); break;
         case 6: _t->addAllLayers(); break;
-        case 7: _t->readLayerNames((*reinterpret_cast< QVector<QString>(*)>(_a[1]))); break;
-        case 8: _t->readLayerLabeling((*reinterpret_cast< QVector<bool>(*)>(_a[1]))); break;
-        case 9: _t->enableLayerLables((*reinterpret_cast< QgsVectorLayer(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
+        case 7: _t->enableLayerLables((*reinterpret_cast< QgsVectorLayer*(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2])),(*reinterpret_cast< bool(*)>(_a[3]))); break;
+        case 8: _t->readLayerNames((*reinterpret_cast< QVector<QString>(*)>(_a[1]))); break;
+        case 9: _t->readLayerLabeling((*reinterpret_cast< QVector<bool>(*)>(_a[1]))); break;
         case 10: { double _r = _t->fRand((*reinterpret_cast< double(*)>(_a[1])),(*reinterpret_cast< double(*)>(_a[2])));
             if (_a[0]) *reinterpret_cast< double*>(_a[0]) = _r; }  break;
         default: ;
