@@ -1,6 +1,17 @@
 #include "qgsmaptoolzoomevent.h"
-#include <qgsmapcanvas.h>
+#include "qgsmaptoolzoom.h"
+#include "qgsmapcanvas.h"
+#include "qgsmaptopixel.h"
+#include "qgscursors.h"
+#include "qgsrubberband.h"
+
+#include <QMouseEvent>
+#include <QRect>
+#include <QColor>
+#include <QCursor>
+#include <QPixmap>
 #include <qgsvectorlayer.h>
+#include "qgslogger.h"
 #include "mainwindow.h"
 
 QgsMapToolZoomEvent::QgsMapToolZoomEvent(QgsMapCanvas *canvas, bool zoomOut,
@@ -50,6 +61,15 @@ void QgsMapToolZoomEvent::canvasReleaseEvent(QgsMapMouseEvent *e)
 
         mCanvas->zoomByFactor( mZoomOut ? 1.0 / sf : sf, &c );
 
+        double scale = mCanvas->scale();
+
+        if (scale < 2000)
+        {
+          setVisibleLablesLayers(true);
+        } else
+        {
+          setVisibleLablesLayers(false);
+        }
         mCanvas->refresh();
     }
     else // not dragging

@@ -145,8 +145,6 @@ void MainWindow::addAllLayers()
 {
     QVector<QString> layerNames;
     readLayerNames(layerNames);
-    QVector<bool> layerLabeling;
-    readLayerLabeling(layerLabeling);
 
     QgsVectorLayer * mypLayer;
 
@@ -154,7 +152,7 @@ void MainWindow::addAllLayers()
         mypLayer = new QgsVectorLayer(layerPath + layerNames.at(i) + filenameExtention,
                                       myLayerBaseName, myProviderName);
         addLayer(*mypLayer, layerNames.at(i));
-        enableLayerLables(mypLayer, false, layerLabeling.at(i));
+        enableLayerLables(mypLayer, false, false);
     }
 
 
@@ -243,20 +241,4 @@ void MainWindow::readLayerNames(QVector<QString> &layerNames)
         inputFile.close();
     }
 }
-
-// read the file which contains boolean values for activating layers listed in layers_names.txt
-void MainWindow::readLayerLabeling(QVector<bool> &layerLabeling)
-{
-    QFile inputFile(QDir::currentPath() + "/layers_lableling.txt");
-    if (inputFile.open(QIODevice::ReadOnly))
-    {
-        QTextStream in(&inputFile);
-        while (!in.atEnd())
-        {
-            layerLabeling.append(!!in.readLine().toInt());
-        }
-        inputFile.close();
-    }
-}
-
 
