@@ -22,60 +22,14 @@ QgsMapToolZoomEvent::QgsMapToolZoomEvent(QgsMapCanvas *canvas, bool zoomOut,
 
 void QgsMapToolZoomEvent::canvasReleaseEvent(QgsMapMouseEvent *e)
 {
-    if ( e->button() != Qt::LeftButton )
-        return;
+    QgsMapToolZoom::canvasReleaseEvent(e);
 
-    // We are not really dragging in this case. This is sometimes caused by
-    // a pen based computer reporting a press, move, and release, all the
-    // one point.
-    if ( mDragging && ( mZoomRect.topLeft() == mZoomRect.bottomRight() ) )
+    if (mCanvas->scale() < 2000)
     {
-        mDragging = false;
-        delete mRubberBand;
-        mRubberBand = nullptr;
-    }
-
-    if ( mDragging )
+        setVisibleLablesLayers(true);
+    } else
     {
-        mDragging = false;
-        delete mRubberBand;
-        mRubberBand = nullptr;
-
-        // store the rectangle
-        mZoomRect.setRight( e->pos().x() );
-        mZoomRect.setBottom( e->pos().y() );
-
-        //account for bottom right -> top left dragging
-        mZoomRect = mZoomRect.normalized();
-
-        // set center and zoom
-        const QSize& zoomRectSize = mZoomRect.size();
-        const QgsMapSettings& mapSettings = mCanvas->mapSettings();
-        const QSize& canvasSize = mapSettings.outputSize();
-        double sfx = ( double )zoomRectSize.width() / canvasSize.width();
-        double sfy = ( double )zoomRectSize.height() / canvasSize.height();
-        double sf = qMax( sfx, sfy );
-
-        const QgsMapToPixel* m2p = mCanvas->getCoordinateTransform();
-        QgsPoint c = m2p->toMapCoordinates( mZoomRect.center() );
-
-        mCanvas->zoomByFactor( mZoomOut ? 1.0 / sf : sf, &c );
-
-        double scale = mCanvas->scale();
-
-        if (scale < 2000)
-        {
-          setVisibleLablesLayers(true);
-        } else
-        {
-          setVisibleLablesLayers(false);
-        }
-        mCanvas->refresh();
-    }
-    else // not dragging
-    {
-        // change to zoom in/out by the default multiple
-        mCanvas->zoomWithCenter( e->x(), e->y(), !mZoomOut );
+        setVisibleLablesLayers(false);
     }
 }
 

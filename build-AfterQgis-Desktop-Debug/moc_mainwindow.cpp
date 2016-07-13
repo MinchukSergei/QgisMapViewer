@@ -22,7 +22,7 @@ static const uint qt_meta_data_MainWindow[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-      11,   14, // methods
+      10,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -39,8 +39,7 @@ static const uint qt_meta_data_MainWindow[] = {
      122,   11,   11,   11, 0x0a,
      164,  137,   11,   11, 0x0a,
      220,  209,   11,   11, 0x08,
-     268,  254,   11,   11, 0x08,
-     319,  309,  302,   11, 0x08,
+     271,  261,  254,   11, 0x08,
 
        0        // eod
 };
@@ -53,7 +52,6 @@ static const char qt_meta_stringdata_MainWindow[] = {
     "layer,isLocation,isVisible\0"
     "enableLayerLables(QgsVectorLayer*,bool,bool)\0"
     "layerNames\0readLayerNames(QVector<QString>&)\0"
-    "layerLabeling\0readLayerLabeling(QVector<bool>&)\0"
     "double\0fMin,fMax\0fRand(double,double)\0"
 };
 
@@ -72,8 +70,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 6: _t->addAllLayers(); break;
         case 7: _t->enableLayerLables((*reinterpret_cast< QgsVectorLayer*(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2])),(*reinterpret_cast< bool(*)>(_a[3]))); break;
         case 8: _t->readLayerNames((*reinterpret_cast< QVector<QString>(*)>(_a[1]))); break;
-        case 9: _t->readLayerLabeling((*reinterpret_cast< QVector<bool>(*)>(_a[1]))); break;
-        case 10: { double _r = _t->fRand((*reinterpret_cast< double(*)>(_a[1])),(*reinterpret_cast< double(*)>(_a[2])));
+        case 9: { double _r = _t->fRand((*reinterpret_cast< double(*)>(_a[1])),(*reinterpret_cast< double(*)>(_a[2])));
             if (_a[0]) *reinterpret_cast< double*>(_a[0]) = _r; }  break;
         default: ;
         }
@@ -112,9 +109,9 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 11)
+        if (_id < 10)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 11;
+        _id -= 10;
     }
     return _id;
 }

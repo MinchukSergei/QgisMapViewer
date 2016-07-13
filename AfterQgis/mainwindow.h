@@ -43,7 +43,6 @@ class MainWindow : public QMainWindow, private Ui::MainWindowBase
 
 private slots:
      void readLayerNames(QVector<QString> &layerNames);
-     void readLayerLabeling(QVector<bool> &layerLabeling);
      double fRand(double fMin, double fMax);
 };
 
